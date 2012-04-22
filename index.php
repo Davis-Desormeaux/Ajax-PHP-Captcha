@@ -20,12 +20,13 @@
     <script language="javascript">
         <!--       
         fire(function() {
-            var axCaptcha = new AjaxCaptcha();
+            // TODO: Create a hashmap to store the elements id and pass it in the constructor
+            var axCaptcha = new AjaxCaptcha(); 
             axCaptcha.dooSelect('#captcha').src = "images/captcha.php?cx=" + Math.random();
             axCaptcha.dooSelect('#refreshimage').onclick  = axCaptcha.refreshCapcha;
-            axCaptcha.dooSelect('#submit-button').onclick = axCaptcha.doFormSubmit;
-            axCaptcha.dooSelect('#captch-text').onkeyup   = function() {
-                axCaptcha.validateCaptcha('captch-text');
+            axCaptcha.dooSelect('#captcha-form').onsubmit = axCaptcha.doFormSubmit;
+            axCaptcha.dooSelect('#captch-text').onkeyup   = function(e) {
+                axCaptcha.validateCaptcha('#captch-text');
             }
         });
         //-->

@@ -21,7 +21,7 @@ function AjaxCaptcha() {
      
     // Public
     this.validateCaptcha = function(textboxId) {
-        var usr_captcha = this.dooSelect('#'+ textboxId).value;         
+        var usr_captcha = dooSelect(textboxId).value;         
         if (usr_captcha.length < 2) {
             return; // No captcha generated under 2 chars...       
         }     
@@ -30,11 +30,9 @@ function AjaxCaptcha() {
              validCaptcha.value = 1;
                dooSelect('#incorrect').innerHTML    = " <b>Valid</b>";
                dooSelect('#incorrect').style.color  = "Green";
-            } else {
+            } else {                           
+               if (validCaptcha.value) dooSelect('#incorrect').innerHTML = ""; // Remove Valid label
                validCaptcha.value = 0;
-               if (dooSelect('#incorrect').innerHTML == " <b>Valid</b>") {
-                   dooSelect('#incorrect').innerHTML  = ""; 
-               }
                dooSelect('#incorrect').style.color  = "red";                
             }
         });
