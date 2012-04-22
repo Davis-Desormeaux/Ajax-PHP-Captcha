@@ -1,31 +1,10 @@
 <html>
     <title>Ajax PHP Captcha DEMO</title>
     <script language="javascript">
-        <!-- 
-        var ajaxRequest;          
+        <!--       
         var validCaptcha = 0;
-
-        function ajaxGet(restUrl, callBackFunction){
-            try {
-                ajaxRequest = new XMLHttpRequest();
-            } catch (e){
-                try{
-                    ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-                } catch (e) {
-                    try{
-                        ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (e) {
-                        console.log("No XMLHttp Object found!");
-                        return false;
-                    }
-                }
-            }
-            ajaxRequest.onreadystatechange = callBackFunction; 
-            ajaxRequest.open("GET", restUrl, true);
-            ajaxRequest.send(null); 
-        }
-
-        function domSelect(element) {
+        
+        function dooSelect(element) {
             var eltype   = element.substring(0, 1);
             var _element = element.substring(1);
         
@@ -35,31 +14,79 @@
                     : document.getElementById(_element)
                 : document.getElementsByClassName(_element)
         }
+        
+        function dooAjax(url,callback,postQuery) {
+            var http = getXMLHTTPObject();               
+            if (!http || !url) {
+                console.log(!http ? "Error No XMLHTTP available" : "Error: Empty URL");
+                return;
+            }  
+            var method = (postQuery) ? "POST" : "GET";
+            http.open(method,url,true);
+               
+            if (postQuery) {
+                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            }               
+            http.onreadystatechange = function() {
+                if ((http.readyState != 4) || (http.status != 200 && http.status != 304)) {
+                    return;
+                }            
+                callback(http.responseText);
+            }  
+            http.send(postQuery);
+        }
+    
+        function getXMLHTTPObject() {  
+            var xmlHttp = false;
+            var AjaxClients = [
+                function () {return new XMLHttpRequest()},
+                function () {return new ActiveXObject("Msxml2.XMLHTTP")},
+                function () {return new ActiveXObject("Msxml3.XMLHTTP")},
+                function () {return new ActiveXObject("Microsoft.XMLHTTP")}
+            ];
+        
+            
+            for (var i=0; i<AjaxClients.length; i++) {
+                try {
+                    xmlHttp = AjaxClients[i]();
+                } catch (e) {
+                    continue;
+                }
+                break;
+            }
+            return xmlHttp;
+        }          
 
         function refreshCapcha() {
-            domSelect('#captcha').src = 'images/captcha.php?cx=' + Math.random();
+            dooSelect('#incorrect').innerHTML = "";
+            dooSelect('#captcha').src = 'images/captcha.php?cx=' + Math.random();
+            validCaptcha = 0;
         }
        
         function validateCaptcha() {
-            var usr_captcha = domSelect('#captchatxt').value;
-            
+            var usr_captcha = dooSelect('#captchatxt').value;         
             if (usr_captcha.length < 2) return; // No captcha generated under 2 chars...
-
-            ajaxGet('captchaRestCheck.php?usrcap=' + usr_captcha, function(){
-                if(ajaxRequest.readyState == 4 && ajaxRequest.responseText == "true"){
-                    validCaptcha = 1;
+            dooAjax('captchaRestCheck.php?usrcap=' + usr_captcha, function(data){           
+                if(data == "valid") {
+                   validCaptcha = 1;
+                   dooSelect('#incorrect').innerHTML = " <b>Valid</b>";
+                   dooSelect('#incorrect').style.color  = "Green";
+                } else {
+                   validCaptcha = 0;
+                   dooSelect('#incorrect').innerHTML = "";
+                   dooSelect('#incorrect').style.color  = "red";                
                 }
             });
         }
         
-        function doFormCheck() {
+        function doFormSubmit() {
           if (!validCaptcha) {
-            domSelect('#incorrect').innerHTML  = " Incorrect";
-            domSelect('#captcha').src = "images/captcha.php?cx=" + Math.random();
+            dooSelect('#incorrect').innerHTML  = "<b> Incorrect</b>";
+            dooSelect('#captcha').src = "images/captcha.php?cx=" + Math.random();
             return false;
           } else {
             alert('Great!');
-            domSelect('#incorrect').innerHTML  = "";
+            dooSelect('#incorrect').innerHTML  = "";
             return true;
           }
           
