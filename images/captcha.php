@@ -1,8 +1,8 @@
 <?php
 /**
- * Script para la generación de CAPTCHAS
+ * Script CAPTCHAS Generation
  *
- * @author  Jose Rodriguez <jose.rodriguez@exec.cl>
+ * @author  Jose Rodriguez <jose.rodriguez@exec.cl>, Refactoring by Davis Desormeaux <davis100 AT gmail D0T com>
  * @license GPLv3
  * @link    http://code.google.com/p/cool-php-captcha
  * @package captcha
