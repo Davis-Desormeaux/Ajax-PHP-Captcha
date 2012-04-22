@@ -5,7 +5,7 @@
  * @author  Jose Rodriguez <jose.rodriguez@exec.cl>
  * @author  Davis Desormeaux (small refactoring) <davis100 AT gmail D0T com> 
  * @license GPLv3
- * @link    https://github.com/Davis-Desormeaux/Ajax-PHP-Captcha
+ * @link    http://github.com/Davis-Desormeaux/Ajax-PHP-Captcha
  * @link    http://code.google.com/p/cool-php-captcha
  * @package captcha
  * @version 0.3.1
