@@ -79,22 +79,18 @@ var ajxCaptcha = (function() {
   // Private
   function dooAjax(url, callback, postQuery) {
     var http = getXMLHTTPObject();
-    
     if(!http || !url) {
       console.log(!http ? "Error No XMLHTTP available" : "Error: Empty URL");
       return;       
     }
-    
     http.open((postQuery) ? "POST" : "GET", url, true);
     if(postQuery) {
       http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     }
-    
     http.onreadystatechange = function() {
       if(http.readyState == 4) {
         callback(http.responseText);
       }
-      
     }
     http.send(postQuery);
   }
