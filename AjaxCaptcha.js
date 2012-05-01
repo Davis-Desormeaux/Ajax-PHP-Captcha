@@ -37,16 +37,16 @@ var ajxCaptcha = (function() {
     dooAjax('captchaRestCheck.php?usrcap=' + usr_captcha, function(data) {
       var outputElem = dooSelect('#incorrect');
       if(data == "valid") {
-        outputElem.style.color = outputElem.validColor;
-        outputElem.innerHTML = outputElem.txtValid;
+        outputElem.style.color = parameterMap.validColor;
+        outputElem.innerHTML = parameterMap.txtValid;
         validCaptcha.value = true;
       } else {    
         outputElem.style.color = parameterMap.badColor;
-        validCaptcha.value = false;        
         if ( validCaptcha.value ) {
           // Remove the word valid.
           outputElem.innerHTML = ""; 
-        } 
+        }
+        validCaptcha.value = false;  
       }
     });
   }
