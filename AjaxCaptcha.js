@@ -2,7 +2,7 @@
  *                   GNU GENERAL PUBLIC LICENSE
  *                     Version 3, 29 June 2007
  *
- * Copyright (C) 2012 Davis Desormeaux
+ * Copyright (c) 2012 Davis Desormeaux
  * More: https://github.com/Davis-Desormeaux
  *
  */
@@ -21,7 +21,7 @@ var ajxCaptcha = (function() {
   };
               
   // Public
-  refreshCapcha = function() {
+  var refreshCapcha = function() {
     dooSelect('#captcha').src = 'images/captcha.php?cx=' + Math.random();
     dooSelect('#incorrect').innerHTML = "";
     validCaptcha.value = false;
@@ -34,7 +34,7 @@ var ajxCaptcha = (function() {
       return; // No captcha generated under 2 characters
     }
     
-    dooAjax('captchaRestCheck.php?usrcap=' + usr_captcha, function(data) {
+    dooAjax('captchaCheck.php?usrcap=' + usr_captcha, function(data) {
       var outputElem = dooSelect('#incorrect');
       if(data == "valid") {
         outputElem.style.color = parameterMap.validColor;
@@ -52,7 +52,7 @@ var ajxCaptcha = (function() {
   }
   
   // Public
-  doFormSubmit = function() {
+  var doFormSubmit = function() {
     if(!validCaptcha.value) {
       dooSelect('#captcha').src = "images/captcha.php?cx=" + Math.random();
       dooSelect('#incorrect').style.color = parameterMap.badColor;
@@ -63,7 +63,19 @@ var ajxCaptcha = (function() {
       return true;     
     }
   }
+  
+  // Private   
+  function dooSelect(element) {
+    var eltype   = element.substring(0, 1);
+    var _element = element.substring(1);
 
+    return eltype != '#'
+          ? eltype == '.'
+              ? document.getElementsByClassName(_element) // .className
+              : document.getElementsByName(element)       // elemntName
+          : document.getElementById(_element);            // #elementId
+  }
+  
   // Private
   function dooAjax(url, callback, postQuery) {
     var http = getXMLHTTPObject();
@@ -74,7 +86,6 @@ var ajxCaptcha = (function() {
     }
     
     http.open((postQuery) ? "POST" : "GET", url, true);
-    
     if(postQuery) {
       http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     }
@@ -83,8 +94,8 @@ var ajxCaptcha = (function() {
       if(http.readyState == 4) {
         callback(http.responseText);
       }
+      
     }
-    
     http.send(postQuery);
   }
   
@@ -106,18 +117,6 @@ var ajxCaptcha = (function() {
       }
     } 
     return xmlHttp;
-  }
-  
-  // Private   
-  function dooSelect(element) {
-    var eltype   = element.substring(0, 1);
-    var _element = element.substring(1);
-
-    return eltype != '#'
-          ? eltype == '.'
-              ? document.getElementsByClassName(_element) // .className
-              : document.getElementsByName(element)       // elemntName
-          : document.getElementById(_element);            // #elementId
   }
   
   return {
