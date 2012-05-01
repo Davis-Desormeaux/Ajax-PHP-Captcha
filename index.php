@@ -14,20 +14,26 @@
           CAPTCHA (Validation):
           <input type="text" id="captch-text">
           <br>
-          <button type="submit" id="submit-button">Send</button>
+          <input type="submit">
       </form>
     </p>
     <script language="javascript">
         <!--       
-        fire(function() {
-            // TODO: Create a hashmap to store the elements id and pass it in the constructor
-            var axCaptcha = new AjaxCaptcha(); 
-            axCaptcha.dooSelect('#captcha').src = "images/captcha.php?cx=" + Math.random();
-            axCaptcha.dooSelect('#refreshimage').onclick  = axCaptcha.refreshCapcha;
-            axCaptcha.dooSelect('#captcha-form').onsubmit = axCaptcha.doFormSubmit;
-            axCaptcha.dooSelect('#captch-text').onkeyup   = function(e) {
-                axCaptcha.validateCaptcha('#captch-text');
+        fire(function() { // Use $(document).ready() or whatever is available (like fire)...
+            
+            // Could use a cool selector here: jQuery('#captcha'), dojo.query('#captcha')...
+            document.getElementById('captcha').src = "images/captcha.php?cx=" + Math.random();
+            document.getElementById('refreshimage').onclick = ajxCaptcha.refreshCapcha;
+            
+            // Add a handler to prevent a form submission when the captcha is invalid.
+            document.getElementById('captcha-form').onsubmit = ajxCaptcha.doFormSubmit;
+            
+            // Add handler to check against the captcha on a keypress. 
+            // If the captcha is valid, the word 'Valid' will show up.
+            document.getElementById('captch-text').onkeyup = function(e) {
+                ajxCaptcha.validateCaptcha('#' + this.id);
             }
+            
         });
         //-->
     </script>
