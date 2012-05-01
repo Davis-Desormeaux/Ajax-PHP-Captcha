@@ -112,12 +112,12 @@ var ajxCaptcha = (function() {
   function dooSelect(element) {
     var eltype   = element.substring(0, 1);
     var _element = element.substring(1);
-  
-    return eltype != '#' 
+
+    return eltype != '#'
           ? eltype == '.'
-              ? document.getElementsByClassName(_element) // .className     
+              ? document.getElementsByClassName(_element) // .className
               : document.getElementsByName(element)       // elemntName
-          : document.getElementById(_element);            // #elementId   
+          : document.getElementById(_element);            // #elementId
   }
   
   return {
