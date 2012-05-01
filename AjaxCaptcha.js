@@ -43,7 +43,7 @@ var ajxCaptcha = (function() {
       } else {    
         outputElem.style.color = parameterMap.badColor;
         if ( validCaptcha.value ) {
-          // Remove the word valid.
+          // Remove the word valid. 
           outputElem.innerHTML = ""; 
         }
         validCaptcha.value = false;  
